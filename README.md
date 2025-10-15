@@ -2,7 +2,6 @@
 
 **Official Implementation** of *“KoLEG: On-the-Fly Korean Legal Knowledge Editing with Continuous Retrieval”* (Findings of EMNLP 2025)
 
----
 
 ## Requirements
 
@@ -21,8 +20,6 @@ conda install pytorch==2.3.0 torchvision==0.18.0 torchaudio==2.3.0 pytorch-cuda=
 # Install remaining dependencies
 pip install -r requirements.txt
 ```
-
----
 
 ## Korean Legislative Amendment Dataset Structure
 
@@ -49,8 +46,6 @@ This dataset captures both *single updates* (latest amendments) and *sequential 
 │   ├── sequential_test_3.json     # 3rd-stage test set
 │   └── sequential_test_4.json     # 4th-stage test set
 ```
-
----
 
 ## Editing-Aware Learning Strategy
 
@@ -100,7 +95,6 @@ deepspeed train/fastchat/train/train_lora_koleg.py \
 * `--learning_rate`, `--weight_decay`, `--warmup_ratio`, `--lr_scheduler_type`: Standard optimization hyperparameters.
 * `--deepspeed`: Path to the DeepSpeed configuration file for distributed training.
 
----
 
 ### 2. Evaluation (Inference Phrase)
 
@@ -121,13 +115,12 @@ python test/run.py \
 * `--batch_size`: Number of samples processed per batch.
 * `--retriever`: Retriever model or checkpoint path used to locate related knowledge.
 
----
 
 ## Citation
 
 If you use **KoLEG** or the dataset in your research, please cite our paper:
 
-
+```
 @inproceedings{seo2025koleg,
   title     = {KoLEG: On-the-Fly Korean Legal Knowledge Editing with Continuous Retrieval},
   author    = {Jaehyung Seo and Dahyun Jung and Jaewook Lee and Yongchan Chun and Dongjun Kim 
@@ -135,3 +128,4 @@ If you use **KoLEG** or the dataset in your research, please cite our paper:
   booktitle = {Findings of the Association for Computational Linguistics: EMNLP 2025},
   year      = {2025}
 }
+```
