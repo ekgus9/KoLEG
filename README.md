@@ -29,22 +29,22 @@ This dataset captures both *single updates* (latest amendments) and *sequential 
 ```
 ./dataset
 ├──  train_data/
-    ├── train_rel.json             # Queries with relevant knowledge and the corresponding edited answers
-    ├── train_por.json             # Edited answers + relevant knowledge to reconstruct the original queries
-    ├── train_loc.json             # Non-editing queries (no knowledge injected), for stability
-    └── train_loc+.json            # Non-editing queries with irrelevant knowledge injected, for robustness
+│   ├── train_rel.json             # Queries with relevant knowledge and the corresponding edited answers
+│   ├── train_por.json             # Edited answers + relevant knowledge to reconstruct the original queries
+│   ├── train_loc.json             # Non-editing queries (no knowledge injected), for stability
+│   └── train_loc+.json            # Non-editing queries with irrelevant knowledge injected, for robustness
 ├── test_data/
 │   ├── test_book.json             # Legal knowledge base
 │   └── test.json                  # Evaluation dataset
-├── sequential_data/
-│   ├── sequential_edit_1.json     # 1st-stage edited legal provisions
-│   ├── sequential_edit_2.json     # 2nd-stage edited legal provisions
-│   ├── sequential_edit_3.json     # 3rd-stage edited legal provisions
-│   ├── sequential_edit_4.json     # 4th-stage edited legal provisions 
-│   ├── sequential_test_1.json     # 1st-stage test set
-│   ├── sequential_test_2.json     # 2nd-stage test set
-│   ├── sequential_test_3.json     # 3rd-stage test set
-│   └── sequential_test_4.json     # 4th-stage test set
+└── sequential_data/
+    ├── sequential_edit_1.json     # 1st-stage edited legal provisions
+    ├── sequential_edit_2.json     # 2nd-stage edited legal provisions
+    ├── sequential_edit_3.json     # 3rd-stage edited legal provisions
+    ├── sequential_edit_4.json     # 4th-stage edited legal provisions 
+    ├── sequential_test_1.json     # 1st-stage test set
+    ├── sequential_test_2.json     # 2nd-stage test set
+    ├── sequential_test_3.json     # 3rd-stage test set
+    └── sequential_test_4.json     # 4th-stage test set
 ```
 
 ## Editing-Aware Learning Strategy
