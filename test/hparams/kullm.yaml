@@ -1,0 +1,9 @@
+alg_name: "KoLEG"
+model_name: "nlpai-lab/KULLM3"
+sentence_model_name: "hugging_cache/all-MiniLM-L6-v2"
+lora_name: "checkpoint_koleg_kullm" 
+device: 0
+results_dir: "./results"
+
+k: 16
+model_parallel: false
