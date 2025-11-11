@@ -49,7 +49,67 @@ This dataset captures both *single updates* (latest amendments) and *sequential 
 
 ## Editing-Aware Learning Strategy
 
-### 1. Training (Alignment Phrase)
+### 1. Traning LawEdit Retriever
+
+This phase fine-tunes the `BAAI/bge-m3` embedding model to create the **LawEdit Retriever**. The training uses an Editing-Aware Learning dataset within the FlagEmbedding framework. Before training, you must first download the dataset from HuggingFace and convert it to json:
+
+```bash
+mkdir -p dataset/train_data && python -c "from datasets import load_dataset; ds = load_dataset('yongchanskii/editing_aware_retrieval_dataset'); ds['train'].to_json('dataset/train_data/editing_aware_retrieval_dataset.jsonl')"
+```
+
+Then, you can start training:
+
+```bash
+cd train && \
+torchrun --nproc_per_node 2 \
+    -m FlagEmbedding.finetune.embedder.encoder_only.m3 \
+    --model_name_or_path BAAI/bge-m3 \
+    --cache_dir ./cache/model \
+    --train_data ../dataset/train_data/editing_aware_retrieval_dataset.jsonl \
+    --cache_path ./cache/data \
+    --train_group_size 128 \
+    --query_max_len 512 \
+    --passage_max_len 512 \
+    --pad_to_multiple_of 8 \
+    --knowledge_distillation True \
+    --same_dataset_within_batch True \
+    --small_threshold 0 \
+    --drop_threshold 0 \
+    --output_dir ./results/test_encoder_only_m3_bge-m3_sd_deepspeed \
+    --overwrite_output_dir \
+    --learning_rate 1e-5 \
+    --fp16 True \
+    --num_train_epochs 0.067 \
+    --per_device_train_batch_size 1 \
+    --dataloader_drop_last True \
+    --warmup_ratio 0.1 \
+    --gradient_checkpointing False \
+    --logging_steps 1 \
+    --save_steps 5 \
+    --negatives_cross_device \
+    --temperature 0.02 \
+    --sentence_pooling_method cls \
+    --normalize_embeddings True \
+    --kd_loss_type m3_kd_loss \
+    --unified_finetuning True \
+    --use_self_distill True \
+    --fix_encoder False \
+    --self_distill_start_step 0 \
+&& cd ../
+```
+
+#### Arguments
+
+* `--model_name_or_path`: Base pretrained model to be fine-tuned.
+  Here, the `BAAI/bge-m3` model is used as the backbone.
+* `--train_data`: Path to the training dataset.
+* `--output_dir`: Directory to save checkpoints and logs.
+* `--num_train_epochs`: Total number of fine-tuning epochs.
+* `--learning_rate`, `--warmup_ratio`: Standard optimization hyperparameters.
+* `--deepspeed`: Path to the DeepSpeed configuration file for distributed training.
+
+
+### 2. Training (Alignment Phrase)
 
 This phase fine-tunes the **`meta-llama/Llama-3.1-8B-Instruct`** model with an editing-aware alignment strategy. Training is conducted using LoRA and DeepSpeed for efficient multi-GPU optimization.
 
